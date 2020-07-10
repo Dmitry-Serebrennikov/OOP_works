@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <string>
 #include <math.h>
 #include "Polynom.h"
@@ -192,7 +192,7 @@ ostream& operator << (ostream& out, const Polynom& p) {
 	return out;
 }
 
-//ðåàëèçàöèÿ ìåòîäà Íüþòîíà
+//Ñ€ÐµÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¼ÐµÑ‚Ð¾Ð´Ð° ÐÑŒÑŽÑ‚Ð¾Ð½Ð°
 double Polynom::koren(Polynom p, double x0) {
 	Polynom pd = p.derivative();
 	double x1 = x0 - p(x0)/pd(x0);
