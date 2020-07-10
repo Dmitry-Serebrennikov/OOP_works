@@ -18,13 +18,13 @@ Polynom::Polynom(int dg) {
 Polynom::Polynom(int dg, const vector<double> & cf) {
 	degree = dg;
 	coeff = * new vector<double>(0);
-	/*if (cf.size() > 0) { */
+	if (cf.size() > 0) { 
 		for (int i = 0; i <= degree; i++) {
 			coeff.push_back(cf[i]);
 		}
-	/*} else {
+	} else {
 		coeff.push_back(0);
-	}*/
+	}
 }
 
 Polynom::Polynom(const Polynom& p) {
@@ -36,7 +36,7 @@ Polynom::Polynom(const Polynom& p) {
 }
 
 void Polynom::reduce() {
-	//for (; coeff[degree] == 0 && degree != 0; degree--) {};
+	for (; coeff[degree] == 0 && degree != 0; degree--) {};
 }
 
 int Polynom::getDegree() {
@@ -51,15 +51,6 @@ double Polynom::getCoeff(int dg) {
 		return 0.0;
 }
 
-//Polynom& Polynom::operator = (Polynom& p) {
-//	Polynom * result = new Polynom(p.coeff.size() + 1, p.coeff);
-//	return *result;
-//	/*degree = p.degree;
-//	for (int i = 0; i <= degree; i++) {
-//		coeff[i] = p.coeff[i];
-//	}*/
-//
-//}
 
 Polynom& Polynom::operator + (const  Polynom& p) const {
 	if (degree >= p.degree) { //I >= II
@@ -108,18 +99,9 @@ Polynom& Polynom::operator * (const Polynom& p) const {
 	//Z->reduce();
 	return *Z;
 }
-//Polynom& Polynom::operator * (const Polynom& p) const {
-//	Polynom Z(degree + p.degree);
-//	for (int i = 0; i < degree; i++) {
-//		for (int j = 0; i < p.degree; j++) {
-//			Z.coeff[i + j] += coeff[i] * p.coeff[j];
-//		}
-//	}
-//	return Z;
-//}
+
 
 Polynom& Polynom::operator * (double cf) const {
-	/*Polynom& p = * new Polynom(*this);*/
 	Polynom& p = *new Polynom(*this);
 	for (int i = 0; i <= degree; i++) {
 		p.coeff[i] = p.coeff[i] * cf;
@@ -135,71 +117,38 @@ Polynom& Polynom::increase(int dg) const {
 	return p;
 }
 Polynom& Polynom::operator / (const Polynom& p) const {
-	//Polynom ostatok = *this;
 	Polynom& ostatok = *(new Polynom(*this));
-
-	//Polynom check = p.increase(i - p.degree);
 	vector<double> result;
 	double c;
 	int delta = ostatok.degree - p.degree;
 	if (delta < 0) {
-		//return ostatok;
-		//cout << ostatok;
 		return ostatok;
 	}
 	else {
 		for (int i = degree; i >= p.degree; i--) {
 			c = ostatok.coeff[i] / p.coeff[p.degree];
-			Polynom tmp = p.increase(i - p.degree);
-			Polynom tmp2 = tmp * c;
-			//cout << ostatok << "  ----> " << tmp << endl;
-			//cout << ostatok - tmp2 << endl;
-			//ostatok = ostatok - tmp2;
-			//ostatok = ostatok - p.increase(i - p.degree) * c;
+			ostatok = ostatok - p.increase(i - p.degree) * c;
 			result.insert(result.begin(), c);
-			//result = ostatok.coeff[] / p.coeff[];
 		}
 		Polynom& r = *(new Polynom(result.size() - 1, result));
 		return r;
 	}
 }
-//Polynom Polynom::operator / (const Polynom& p) {
-//	
-//}
 
-//Polynom Polynom::operator / (const Polynom& p) {
-//		Polynom temp = *this;
-//		int rdeg = temp.degree - p.degree + 1;
-//		Polynom res(rdeg);
-//		for (int i = 0; i < rdeg; i++) {
-//			res.coeff[rdeg - i - 1] = temp.coeff[temp.degree - i - 1] / p.coeff[p.degree - 1];
-//			for (int j = 0; j < p.degree; j++) {
-//				temp.coeff[temp.degree - j - i - 1] -= p.coeff[p.degree - j - 1] * res.coeff[rdeg - i - 1];
-//			}
-//		}
-//		temp.reduce();
-//		if (temp.degree != 0) {
-//			cout << "!!! имеется остаток от деления " << temp << endl;
-//		}
-//		return res;
-//	}
-//аргумент
-Polynom Polynom::operator () (int x) {
+double Polynom::operator () (int x) {
 	int sum = 0;
+
 	for (int i = 0; i <= degree; i++) {
 		sum += pow(x, i) * coeff[i];
 	}
 	return sum;
 }
-
-
 Polynom Polynom::derivative() {
 	if (degree == 0) {
 		return Polynom(0);
 	}
 	else {
 		Polynom* Z = new Polynom(degree - 1);
-		//Polynom Z(degree - 1);
 		for (int i = 1; i <= degree; i++) { 
 			Z->coeff[i-1] = coeff[i] * i; //!!!
 		}
@@ -207,19 +156,6 @@ Polynom Polynom::derivative() {
 	}
 }
 
-//Polynom Polynom::derivative() {
-//	if (degree == 0) {
-//		return Polynom(0);
-//	}
-//	else {
-//		//Polynom* Z = new Polynom(degree - 1);
-//		Polynom Z(degree - 1);
-//		for (int i = 0; i < degree; i++) {
-//			Z.coeff[i] = coeff[i - 1] * i; //!!!
-//		}
-//		return Z;
-//	}
-//}
 Polynom Polynom::integral() {
 	Polynom P(degree + 1);
 	for (int i = 1; i <= degree + 1; i++) {
@@ -229,41 +165,14 @@ Polynom Polynom::integral() {
 	return P;
 }
 
-//istream& operator>>(istream& s, Polynom& c)// перегруженный оператор ввода
-//{
-//	int i;
-//	for (i = 0; i <= c.n; i++)
-//	{
-//		s >> c.koef[i];
-//	}
-//	return s;
-//}
-
 istream& operator >> (istream& in, Polynom& p) {
-	//int  dg;
-	//in >> dg;
 	in >> p.degree;
 	p.coeff = *new vector <double>(p.degree + 1);
-	//*coeff = *new vector<double>(0);
-	//vector <double> cf = *new vector<double>(0);
-	//Polynom Z(dg, <double> cf);
 	for (int i = 0; i <= p.degree; i++) {
  		in >> p.coeff[i];
 	}
-	/*for (int i = 0; i <= p.degree; i++) {
-		in >> p.coeff[i];
-	}*/
 	return in;
 }
-//istream& operator >> (istream& in, Polynom& p) {
-//	int n;
-//	in >> n;
-//	/*p = *(new Polynom(n));
-//	for (int i = 0; i <= p.degree; i++) {		
-//		in >> p.coeff[i];
-//	}*/
-//	return in;
-//}
 
 ostream& operator << (ostream& out, const Polynom& p) {
 	for (int i = p.degree; i >= 0; i--) {
@@ -279,39 +188,6 @@ ostream& operator << (ostream& out, const Polynom& p) {
 		}
 	}
 	out << endl;
-	// int degree = 0;
-	// for (int i = 0; i <= p.degree; i++) {
-	// 	if (p.coeff[i] != 0) {
-	// 		degree++;
-	// 	}
-	// }
-	// if (degree != 0) {
-	// 	if (p.coeff[0] != 0) {
-	// 		out << p.coeff[0];
-	// 	}
-	// 	for (int i = 1; i <= p.degree; i++) {
-	// 		if (p.coeff[i] < 0) {
-	// 			if (p.coeff[i] != -1)
-	// 				out << p.coeff[i] << "X^" << i;
-	// 			else
-	// 				out << "-" << "X^" << i;	
-				
-	// 		}
-	// 		else {
-	// 			if (p.coeff[i] != 0) {
-	// 				if (p.coeff[i] != 1)
-	// 					out << "+" << p.coeff[i] << "X^" << i;
-	// 				else
-	// 					out << "+ X^" << i;
-	// 			}
-
-	// 		}
-	// 	}
-	// 	out << '\n';
-	// }
-	// else {
-	// 	out << 0;
-	// }
 	return out;
 }
 

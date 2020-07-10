@@ -17,29 +17,23 @@ public:
 	//конструктор копирования
 	Polynom(const Polynom& p);
 	//получение степени полинома
-	void reduce(void);
 	int getDegree();
+	//получение коэффициента 
 	double getCoeff(int dg);
+	void reduce(void);
 	
 	Polynom& operator + (const Polynom&) const;
 	Polynom& operator - (const Polynom&) const;
 	Polynom& operator * (const Polynom&) const;
+	Polynom& operator * (double) const;
 	Polynom& operator / (const Polynom&) const;
 	Polynom& increase(int) const;
 	
-	Polynom& operator * (double) const;
-	Polynom& operator / (double) const;
-	Polynom& operator += (Polynom&);
-	Polynom& operator += (double);
-
-	//оператор присваивания
-	//Polynom& operator = (Polynom&);
 	//вычисление значения многочлена для заданного аргумена
-	Polynom operator () (int);
-	//Polynom arg(int x); //
-	//взятие производной произвольного порядка с получением нового объекта-многочлена
+	double operator () (int);
+	//взятие производной с получением нового объекта-многочлена
 	Polynom derivative();
-	//взятие интерргала
+	//взятие интеграла
 	Polynom integral();
 	friend ostream& operator << (ostream&, const Polynom&);
 	friend istream& operator >> (istream&, Polynom&);
