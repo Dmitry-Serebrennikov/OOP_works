@@ -37,11 +37,11 @@ public:
 	//взятие интеграла
 	Polynom integral();
 
-	bool solution(double begin, double end);
 
 	friend ostream& operator << (ostream&, const Polynom&);
 	friend istream& operator >> (istream&, Polynom&);
 
+	bool solution(double begin, double end);
 	double koren(Polynom p, double x0);
 };
 #endif

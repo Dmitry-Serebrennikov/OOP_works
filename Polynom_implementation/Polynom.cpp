@@ -199,12 +199,11 @@ double Polynom::koren(Polynom p, double x0) {
 	double eps = 0.00001;
 	while (fabs(x1 - x0) > eps) {
 		x0 = x1;
-		x1 = x0 - p(0)/pd(x0);
+		x1 = x0 - p(x0) / pd(x0);
 	}
 	return x1;
 
 }
-
 
 bool Polynom::solution(double begin, double end) {
 	double x1 = koren(*this, begin);
