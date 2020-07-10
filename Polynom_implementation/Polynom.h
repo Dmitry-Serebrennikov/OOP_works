@@ -20,6 +20,7 @@ public:
 	int getDegree();
 	//получение коэффициента 
 	double getCoeff(int dg);
+	//double koren(const Polynom&, double start, double end);
 	void reduce(void);
 	
 	Polynom& operator + (const Polynom&) const;
@@ -35,7 +36,12 @@ public:
 	Polynom derivative();
 	//взятие интеграла
 	Polynom integral();
+
+	bool solution(double begin, double end);
+
 	friend ostream& operator << (ostream&, const Polynom&);
 	friend istream& operator >> (istream&, Polynom&);
+
+	double koren(Polynom p, double x0);
 };
 #endif
